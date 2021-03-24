@@ -39,7 +39,9 @@
 		"lint-staged": "^10.5.4",
 		"prettier": "^2.2.1",
 		"pretty-quick": "^3.1.0",
-		"typescript": "^4.2.3"
+		"typed-css-modules": "^0.6.5",
+		"typescript": "^4.2.3",
+		"typescript-plugin-css-modules": "^3.2.0"
 	},
 	"lint-staged": {
 		"*.{mjs,js,jsx,ts,tsx}": "eslint --fix --ext mjs,js,jsx,ts,tsx"

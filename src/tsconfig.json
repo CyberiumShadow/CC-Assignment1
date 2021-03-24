@@ -2,6 +2,7 @@
 	"extends": "@sapphire/ts-config",
 	"compileOnSave": false,
 	"compilerOptions": {
+		"plugins": [{ "name": "typescript-plugin-css-modules" }],
 		"allowJs": true,
 		"checkJs": true,
 		"lib": ["ESNext", "DOM"],
