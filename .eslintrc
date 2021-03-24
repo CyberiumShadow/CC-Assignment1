@@ -1,0 +1,104 @@
+{
+	"extends": ["@sapphire", "plugin:import/typescript"],
+	"parserOptions": {
+		"ecmaVersion": 2020,
+		"sourceType": "module",
+		"ecmaFeatures": {
+			"jsx": true
+		},
+		"jsx": true,
+		"warnOnUnsupportedTypeScriptVersion": false
+	},
+	"plugins": ["import", "react"],
+	"settings": {
+		"react": {
+			"version": "detect"
+		}
+	},
+	"rules": {
+		"@typescript-eslint/naming-convention": "off",
+		"@typescript-eslint/no-throw-literal": "off",
+		"no-extra-label": "warn",
+		"no-iterator": "warn",
+		"no-label-var": "warn",
+		"no-labels": [
+			"warn",
+			{
+				"allowLoop": true,
+				"allowSwitch": true
+			}
+		],
+		"no-lone-blocks": "warn",
+		"no-loop-func": "warn",
+		"no-mixed-operators": [
+			"warn",
+			{
+				"groups": [
+					["&", "|", "^", "~", "<<", ">>", ">>>"],
+					["==", "!=", "===", "!==", ">", ">=", "<", "<="],
+					["&&", "||"],
+					["in", "instanceof"]
+				],
+				"allowSamePrecedence": false
+			}
+		],
+		"no-multi-str": "warn",
+		"rest-spread-spacing": ["warn", "never"],
+		"no-restricted-properties": [
+			"error",
+			{
+				"object": "require",
+				"property": "ensure",
+				"message": "Please use import() instead. More info: https://facebook.github.io/create-react-app/docs/code-splitting"
+			},
+			{
+				"object": "System",
+				"property": "import",
+				"message": "Please use import() instead. More info: https://facebook.github.io/create-react-app/docs/code-splitting"
+			}
+		],
+		"getter-return": "warn",
+		"import/first": "error",
+		"import/no-amd": "error",
+		"import/no-webpack-loader-syntax": "error",
+		"react/forbid-foreign-prop-types": [
+			"warn",
+			{
+				"allowInPropTypes": true
+			}
+		],
+		"react/jsx-no-comment-textnodes": "warn",
+		"react/jsx-no-duplicate-props": "warn",
+		"react/jsx-no-target-blank": "warn",
+		"react/jsx-no-undef": "error",
+		"react/jsx-pascal-case": [
+			"warn",
+			{
+				"allowAllCaps": true,
+				"ignore": []
+			}
+		],
+		"react/jsx-uses-react": "warn",
+		"react/jsx-uses-vars": "warn",
+		"react/no-children-prop": "warn",
+		"react/no-access-state-in-setstate": "warn",
+		"react/no-danger": "error",
+		"react/no-danger-with-children": "warn",
+		"react/no-direct-mutation-state": "warn",
+		"react/no-is-mounted": "warn",
+		"react/no-this-in-sfc": "warn",
+		"react/no-typos": "error",
+		"react/react-in-jsx-scope": "error",
+		"react/require-render-return": "error",
+		"react/style-prop-object": "warn",
+		"react/void-dom-elements-no-children": "warn"
+	},
+	"overrides": [
+		{
+			"files": ["src/pages/**/*.tsx", "src/next.config.js"],
+			"rules": {
+				"@typescript-eslint/require-await": "off"
+			}
+		}
+	]
+}

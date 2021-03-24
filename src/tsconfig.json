@@ -1,0 +1,24 @@
+{
+	"extends": "@sapphire/ts-config",
+	"compileOnSave": false,
+	"compilerOptions": {
+		"allowJs": true,
+		"checkJs": true,
+		"lib": ["ESNext", "DOM"],
+		"declaration": false,
+		"declarationMap": false,
+		"isolatedModules": true,
+		"resolveJsonModule": true,
+		"jsx": "preserve",
+		"noEmit": true,
+		"tsBuildInfoFile": "./.tsbuildinfo",
+		"baseUrl": ".",
+		"rootDir": ".",
+		"paths": {
+			"@styles/*": ["styles/*"],
+			"@components/*": ["components/*"]
+		},
+		"skipLibCheck": true
+	},
+	"include": ["."]
+}
