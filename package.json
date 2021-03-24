@@ -9,6 +9,7 @@
 		"start": "next start src",
 		"format": "prettier --write --loglevel=error src/**/*.{js,jsx,ts,tsx}",
 		"update": "yarn upgrade-interactive --latest",
+		"commit": "cz",
 		"lint": "eslint src --ext js,jsx,ts,tsx --fix"
 	},
 	"dependencies": {
