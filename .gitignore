@@ -14,6 +14,8 @@
 
 # production
 /build
+/src/build
+/src/.tsbuildinfo
 
 # misc
 .DS_Store
