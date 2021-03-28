@@ -1,3 +1,6 @@
 .git
 src/pages
+src/components
+src/lib
+src/posts
 node_modules
