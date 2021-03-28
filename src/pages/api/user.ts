@@ -26,26 +26,29 @@ export default async (_: NextApiRequestWithFormData, res: NextApiResponse) => {
 			const userData = _.body;
 			const avatarImage = _.file;
 			const usersCollection = db.collection('users');
-			const userQuery = await usersCollection.where('id', '==', userData.id).get();
+			const userIdQuery = await usersCollection.where('id', '==', userData.id).get();
 
-			if (userQuery.empty) {
-				const blob = bucket.file(`profile_images/${userData.id}.${avatarImage.mimetype.slice(-3)}`);
-				const blobStream = blob.createWriteStream();
+			if (userIdQuery.empty) {
+				const usernameQuery = await usersCollection.where('user_name', '==', userData.username).get();
+				if (usernameQuery.empty) {
+					const blob = bucket.file(`profile_images/${userData.id}.${avatarImage.mimetype.slice(-3)}`);
+					const blobStream = blob.createWriteStream();
 
-				blobStream.on('finish', async () => {
-					// The public URL can be used to directly access the file via HTTP.
-					await usersCollection.doc(userData.id).set({
-						id: userData.id,
-						user_name: userData.username,
-						password: userData.password
+					blobStream.on('finish', async () => {
+						await usersCollection.doc(userData.id).set({
+							id: userData.id,
+							user_name: userData.username,
+							password: userData.password
+						});
 					});
-				});
 
-				blobStream.end(avatarImage.buffer);
-				return res.status(200).send({ message: 'Account Created' });
+					blobStream.end(avatarImage.buffer);
+					return res.status(200).send({ message: 'Account Created' });
+				}
+				return res.status(409).send({ message: 'Username already exists.' });
 			}
 
-			return res.status(409).send({ message: 'Account already exists' });
+			return res.status(409).send({ message: 'ID already exists.' });
 		}
 		default:
 			res.setHeader('Allow', ['POST']);
