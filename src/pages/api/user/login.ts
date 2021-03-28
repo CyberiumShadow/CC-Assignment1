@@ -11,11 +11,11 @@ export default async (_: NextApiRequest, res: NextApiResponse) => {
 
 			if (user.exists) {
 				const userData = user.data()!;
-				if (data.password !== userData!.password) return res.status(401).send({ message: 'Username/Password is incorrect' });
+				if (data.password !== userData!.password) return res.status(401).send({ message: 'ID or Password is incorrect' });
 				return res.status(200).send({ message: 'Logged in' });
 			}
 
-			return res.status(401).send({ message: 'Username/Password is incorrect' });
+			return res.status(401).send({ message: 'ID or Password is incorrect' });
 		}
 		default:
 			res.setHeader('Allow', ['POST']);
