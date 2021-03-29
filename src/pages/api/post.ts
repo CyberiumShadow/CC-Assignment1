@@ -14,13 +14,15 @@ type NextApiRequestWithFormData = NextApiRequest & {
 };
 
 interface RequestBody {
+	authorId: string;
 	subject: string;
 	message: string;
 }
 
 interface PostData extends RequestBody {
 	id: string;
-	image?: string;
+	timestamp: Date | number;
+	image: string;
 }
 
 // Next.JS Route-Specific Config
@@ -36,27 +38,27 @@ export default async (_: NextApiRequestWithFormData, res: NextApiResponse) => {
 			await multerSingle(_, res);
 			const postsCollection = db.collection('posts');
 			const requestBody: RequestBody = _.body;
-			const avatarImage = _.file;
+			const messageImage = _.file;
+			const newPostID = nanoid(10);
+			const blob = bucket.file(`uploads/${newPostID}.${messageImage.mimetype.slice(-3)}`);
+
 			const postData: PostData = {
-				id: nanoid(10),
+				id: newPostID,
+				authorId: requestBody.authorId,
 				subject: requestBody.subject,
-				message: requestBody.message
+				message: requestBody.message,
+				image: blob.name,
+				timestamp: new Date()
 			};
 			// const userIdQuery = await postsCollection.where('id', '==', userData.id).get();
 
-			const blob = bucket.file(`uploads/${postData.id}.${avatarImage.mimetype.slice(-3)}`);
 			const blobStream = blob.createWriteStream();
 
 			blobStream.on('finish', async () => {
-				await postsCollection.doc(postData.id).set({
-					id: postData.id,
-					subject: postData.subject,
-					message: postData.message,
-					image: blob.name
-				});
+				await postsCollection.doc(postData.id).set(postData);
 			});
 
-			blobStream.end(avatarImage.buffer);
+			blobStream.end(messageImage.buffer);
 			return res.status(200).send({ message: 'Post Created' });
 		}
 		default:
