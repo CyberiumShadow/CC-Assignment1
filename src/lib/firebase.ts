@@ -6,4 +6,6 @@ if (admin.apps.length === 0) {
 	});
 }
 
-export default admin.firestore();
+export const bucket = admin.storage().bucket('cyberiumdev-rmit-cc.appspot.com');
+
+export const db = admin.firestore();
