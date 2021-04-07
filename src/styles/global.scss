@@ -146,6 +146,34 @@ $blue_theme: #70a1ff;
 	color: white;
 }
 
+.message-input {
+	height: 10em;
+	border-radius: 3px;
+	border: 1px solid $blue_theme;
+	transition: border 0.4s ease-out;
+	padding: 13px;
+	font-family: Oxygen, sans-serif;
+	font-size: 19px;
+	color: #3e3e42;
+	background: rgba(15, 15, 15, 0.01);
+}
+
+.message-input:hover {
+	border: 2px solid $blue_theme;
+}
+
+.message-input:focus {
+	border: 2px solid #6565e7;
+	box-shadow: 0px 0px 20px rgba(15, 15, 15, 0.2);
+}
+
+.message-input::placeholder {
+	font-family: Oxygen, sans-serif;
+	font-size: 16px; //color: rgba(46, 213, 116, 0.839);
+	color: rgba(15, 15, 15, 0.4);
+}
+
+
 .danger-error {
 	color: #e74c3c;
 	font-size: 16px;
@@ -178,4 +206,15 @@ $blue_theme: #70a1ff;
 
 .show {
 	visibility: visible;
+}
+
+.card {
+	width: 250px;
+}
+
+.card-img-top {
+	display: flex;
+	align-self: center;
+	height: 120px;
+	width: 120px;
 }
