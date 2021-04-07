@@ -6,16 +6,24 @@
 		"dev": "next dev src -p 3000",
 		"type-check": "tsc -b src -w",
 		"build": "next build src",
-		"start": "next start src",
-		"format": "prettier --write --loglevel=error src/**/*.{js,jsx,ts,tsx}",
+		"start": "next start src -p 8080",
+		"format": "prettier --write --loglevel=error src/**/*.{ts,tsx}",
 		"update": "yarn upgrade-interactive --latest",
 		"commit": "cz",
 		"lint": "eslint src --ext js,jsx,ts,tsx --fix"
 	},
 	"dependencies": {
-		"next": "10.0.9",
-		"react": "17.0.2",
-		"react-dom": "17.0.2"
+		"@google-cloud/storage": "^5.8.3",
+		"bootstrap": "^4.6.0",
+		"date-fns": "^2.19.0",
+		"firebase-admin": "^9.5.0",
+		"multer": "^1.4.2",
+		"nanoid": "^3.1.22",
+		"next": "^10.0.9",
+		"next-universal-cookie": "^2.0.0",
+		"react": "^17.0.2",
+		"react-bootstrap": "^1.5.2",
+		"react-dom": "^17.0.2"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^12.0.1",
@@ -23,6 +31,7 @@
 		"@sapphire/eslint-config": "^3.0.2",
 		"@sapphire/prettier-config": "^1.0.8",
 		"@sapphire/ts-config": "^2.1.0",
+		"@types/multer": "^1.4.5",
 		"@types/node": "^14.14.35",
 		"@types/react": "^17.0.3",
 		"@types/react-dom": "^17.0.3",
