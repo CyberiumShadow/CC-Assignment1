@@ -1,10 +1,8 @@
 import multer from 'multer';
-import db from '@lib/db';
-import bucket from '@lib/storage';
+import { db, bucket } from '@lib/firebase';
 import initMiddleware from '@lib/init-middleware';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { nanoid } from 'nanoid';
 
 const upload = multer();
 const multerSingle = initMiddleware(upload.single('message_image'));
@@ -19,7 +17,12 @@ interface RequestBody {
 	message: string;
 }
 
-interface PostData extends RequestBody {
+interface ImagelessPostData extends RequestBody {
+	id: string;
+	timestamp: Date | number;
+}
+
+interface PostData extends ImagelessPostData {
 	id: string;
 	timestamp: Date | number;
 	image: string;
@@ -34,35 +37,49 @@ export const config = {
 
 export default async (_: NextApiRequestWithFormData, res: NextApiResponse) => {
 	switch (_.method) {
-		case 'POST': {
+		case 'PATCH': {
 			await multerSingle(_, res);
 			const postsCollection = db.collection('posts');
 			const requestBody: RequestBody = _.body;
 			const messageImage = _.file;
-			const newPostID = nanoid(10);
-			const blob = bucket.file(`uploads/${newPostID}.${messageImage.mimetype.slice(-3)}`);
+			const { postid: postID } = _.query as { postid: string };
+			const currentPost = (await postsCollection.doc(postID).get()).data() as FirebaseFirestore.DocumentData;
+			if (!messageImage) {
+				const postData: ImagelessPostData = {
+					id: postID,
+					authorId: currentPost.authorId,
+					subject: requestBody.subject,
+					message: requestBody.message,
+					timestamp: new Date()
+				};
+				await postsCollection.doc(postData.id).update(postData);
+				return res.status(200).send({ message: 'Post Edited' });
+			}
+			const blob = bucket.file(currentPost.image);
+			blob.setMetadata({
+				cacheControl: 'no-store'
+			});
 
 			const postData: PostData = {
-				id: newPostID,
-				authorId: requestBody.authorId,
+				id: postID,
+				authorId: currentPost.authorId,
 				subject: requestBody.subject,
 				message: requestBody.message,
 				image: blob.name,
 				timestamp: new Date()
 			};
-			// const userIdQuery = await postsCollection.where('id', '==', userData.id).get();
 
 			const blobStream = blob.createWriteStream();
 
 			blobStream.on('finish', async () => {
-				await postsCollection.doc(postData.id).set(postData);
+				await postsCollection.doc(postData.id).update(postData);
 			});
 
 			blobStream.end(messageImage.buffer);
-			return res.status(200).send({ message: 'Post Created' });
+			return res.status(200).send({ message: 'Post Edited' });
 		}
 		default:
-			res.setHeader('Allow', ['POST']);
+			res.setHeader('Allow', ['PATCH']);
 			res.status(405).end(`Method ${_.method} Not Allowed`);
 	}
 };
