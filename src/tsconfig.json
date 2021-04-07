@@ -1,25 +1,45 @@
 {
-	"extends": "@sapphire/ts-config",
-	"compileOnSave": false,
-	"compilerOptions": {
-		"plugins": [{ "name": "typescript-plugin-css-modules" }],
-		"allowJs": true,
-		"checkJs": true,
-		"lib": ["ESNext", "DOM"],
-		"declaration": false,
-		"declarationMap": false,
-		"isolatedModules": true,
-		"resolveJsonModule": true,
-		"jsx": "preserve",
-		"noEmit": true,
-		"tsBuildInfoFile": "./.tsbuildinfo",
-		"baseUrl": ".",
-		"rootDir": ".",
-		"paths": {
-			"@styles/*": ["styles/*"],
-			"@components/*": ["components/*"]
-		},
-		"skipLibCheck": true
-	},
-	"include": ["."]
+  "extends": "@sapphire/ts-config",
+  "compileOnSave": false,
+  "compilerOptions": {
+    "plugins": [
+      {
+        "name": "typescript-plugin-css-modules"
+      }
+    ],
+    "allowJs": true,
+    "checkJs": true,
+    "lib": [
+      "ESNext",
+      "DOM"
+    ],
+    "declaration": false,
+    "declarationMap": false,
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "jsx": "preserve",
+    "noEmit": true,
+    "tsBuildInfoFile": "./.tsbuildinfo",
+    "baseUrl": ".",
+    "rootDir": ".",
+    "paths": {
+      "@lib/*": [
+        "lib/*"
+      ],
+      "@styles/*": [
+        "styles/*"
+      ],
+      "@components/*": [
+        "components/*"
+      ]
+    },
+    "skipLibCheck": true
+  },
+  "include": [
+    "."
+  ],
+  "exclude": [
+    "../node_modules",
+    "build"
+  ]
 }
